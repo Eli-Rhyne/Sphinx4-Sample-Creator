@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workingSetManager>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1527394780904_2" label="Jarvis Test" name="Jarvis Test">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Sphinx4 RaspiHome" type="4"/>
+</workingSet>
+<workingSet editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1527394811951_3" label="Jarvis Test 2" name="Jarvis Test 2">
+<item elementID="=Sphinx4 RaspiHome" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+</workingSet>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526766165632_0" label="Window Working Set" name="Aggregate for window 1526766165631"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1527211548692_1" label="Window Working Set" name="Aggregate for window 1527211548692"/>
+<mruList name="Jarvis Test 2"/>
+<mruList name="Jarvis Test"/>
 </workingSetManager>
