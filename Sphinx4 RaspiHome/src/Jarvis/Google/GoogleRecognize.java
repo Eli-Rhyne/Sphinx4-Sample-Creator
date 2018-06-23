@@ -19,7 +19,7 @@ public class GoogleRecognize {
 	public GoogleRecognize() {
 		mic = new Microphone(FLACFileWriter.FLAC);
 		file = new File("tempaudio.flac");
-		recognizer = new Recognizer (Recognizer.Languages.ENGLISH_US, false, "AIzaSyD8GsBCn5bQnm7WCFCdYAdm6SrvU0Y1QPA");
+		recognizer = new Recognizer (Recognizer.Languages.ENGLISH_US, false, System.getenv("GOOGLE_KEY"));
 	}
 	
 	public void record(int timeInMilli) throws LineUnavailableException, InterruptedException {
