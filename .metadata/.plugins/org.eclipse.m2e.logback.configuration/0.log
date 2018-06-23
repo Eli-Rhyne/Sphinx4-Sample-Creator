@@ -6,3 +6,13 @@
 2018-05-21 21:02:28,837 [Worker-2] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
 2018-05-24 21:16:38,777 [Worker-2] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
 2018-05-26 23:52:06,545 [Worker-2] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2018-05-27 17:35:25,210 [Worker-117] ERROR o.e.m2e.scm.MavenCheckoutOperation - SCM provider is not available for scm:null:https://mvnrepository.com/artifact/net.sf.phat/sphinx4-core
+2018-05-27 17:35:25,287 [Worker-117] INFO  o.e.m.s.i.w.MavenProjectCheckoutJob - No Maven projects to import
+2018-05-27 17:35:25,295 [Worker-117] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 0 project(s) in 0 sec
+2018-05-27 17:36:43,904 [Worker-0] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2018-05-27 17:37:26,556 [Worker-8] ERROR o.e.m2e.scm.MavenCheckoutOperation - SCM provider is not available for scm:null:https://mvnrepository.com/artifact/net.sf.phat/sphinx4-core
+2018-05-27 17:37:26,566 [Worker-8] INFO  o.e.m.s.i.w.MavenProjectCheckoutJob - No Maven projects to import
+2018-05-27 17:37:26,574 [Worker-16] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 0 project(s) in 0 sec
+2018-06-02 23:17:51,167 [Worker-2] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2018-06-02 23:19:46,021 [Worker-4] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2018-06-22 23:52:59,033 [Worker-1] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
