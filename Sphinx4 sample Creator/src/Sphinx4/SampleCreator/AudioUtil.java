@@ -74,8 +74,8 @@ public class AudioUtil {
         isRunning = false;
          
         if (audioLine != null) {
+        	audioLine.close();
             audioLine.drain();
-            audioLine.close();
         }
     }
  
