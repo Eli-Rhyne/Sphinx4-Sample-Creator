@@ -86,4 +86,8 @@ public class SSHCommandList {
 		
 		System.out.println("Done");
 	}
+	
+	public void MapAdaptation() {
+		
+	}
 }

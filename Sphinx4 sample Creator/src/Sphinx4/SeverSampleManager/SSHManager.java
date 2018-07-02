@@ -140,7 +140,6 @@ private static final Logger LOGGER =
 	      
 	      while(readByte != 0xffffffff)
 	      {
-	    	 System.out.print((char)readByte);
 	         outputBuffer.append((char)readByte);
 	         readByte = commandOutput.read();
 	      }
