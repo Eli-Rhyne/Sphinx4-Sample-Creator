@@ -6,10 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 
 public class SampleFormater {
 	private static Writer transcription;
 	private static Writer fileids;
+	public static ArrayList<File> files = new ArrayList<File>();
 	
 	SampleFormater(String sampleName, String directory) {
 		
@@ -18,6 +20,8 @@ public class SampleFormater {
 			File fileTranscription  = new File(directory + File.separator + sampleName + ".transcription");
 			fileFileids.createNewFile();
 			fileTranscription.createNewFile();
+			files.add(fileTranscription);
+			files.add(fileFileids);
 			
 			transcription = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileTranscription)));
 			fileids = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileFileids)));	
@@ -52,6 +56,7 @@ public class SampleFormater {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		files.add(temp);
 		return temp;
 	}
 	
