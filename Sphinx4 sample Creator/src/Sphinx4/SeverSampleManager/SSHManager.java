@@ -5,6 +5,7 @@ import com.jcraft.jsch.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -139,9 +140,11 @@ private static final Logger LOGGER =
 	      int readByte = commandOutput.read();
 	      
 	      while(readByte != 0xffffffff)
-	      {
+	      { 
+	    	 System.out.print((char)readByte);
 	         outputBuffer.append((char)readByte);
 	         readByte = commandOutput.read();
+	        
 	      }
 	
 	      channel.disconnect();
