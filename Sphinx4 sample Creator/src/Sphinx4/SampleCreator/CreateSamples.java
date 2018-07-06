@@ -82,7 +82,9 @@ public class CreateSamples extends JFrame {
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sample.closeWriters();
-				System.exit(0);
+				dispose();
+				SSHController ssh = new SSHController();
+				ssh.setVisible(true);
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);

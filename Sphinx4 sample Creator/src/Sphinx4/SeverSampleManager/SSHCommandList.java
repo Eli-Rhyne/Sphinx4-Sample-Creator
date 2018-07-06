@@ -1,10 +1,9 @@
 package Sphinx4.SeverSampleManager;
 
-import java.util.ArrayList;
 import java.io.File;
+import java.util.ArrayList;
 
 public class SSHCommandList {
-//	private int port = 22;
 	private String username = "earhyne";
 	private String password = "Rockstar125!";
 	private String ip = "192.168.0.15";
