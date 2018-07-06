@@ -9,7 +9,7 @@ public class SSHCommandList {
 	private String ip = "192.168.0.15";
 	private SSHManager manager;
 	private ArrayList<File> files;
-	private ArrayList<String> sampleNames = new ArrayList<String>();
+	private String sampleName;
 	private String sampleDir = "/home/earhyne/speech_recognition/samples";
 	private String currentModelDir = "/home/earhyne/speech_recognition/samples/models/cmusphinx-en-us-ptm-5.2/";
 	private String programDir = "/home/earhyne/speech_recognition/mfc_adapting/";
@@ -23,7 +23,7 @@ public class SSHCommandList {
 	public SSHCommandList(String sampleName, ArrayList<File> files){
 		manager = new SSHManager(username, password, ip, "");
 		this.files = files;
-		this.sampleNames.add(sampleName);
+		this.sampleName = sampleName;
 		manager = new SSHManager(username, password, ip, "");
 		String error = manager.connect();
 		if(error != null) {System.out.println(error);}
@@ -36,8 +36,8 @@ public class SSHCommandList {
 	 */
 	public boolean setup() {
 		String temp = manager.sendCommand("ls /home/earhyne/speech_recognition/samples/");
-		if(!temp.contains(name + sampleNames.get(0)) && !mllrAdapt && !mapAdapt) {
-			sampleDir = sampleDir + "/" + (name + sampleNames.get(0));
+		if(!temp.contains(name + sampleName) && !mllrAdapt && !mapAdapt) {
+			sampleDir = sampleDir + "/" + (name + sampleName);
 			System.out.println(manager.sendCommand("mkdir " + sampleDir));
 	
 			for(File f: files) {
@@ -63,52 +63,75 @@ public class SSHCommandList {
 		System.out.println(manager.sendCommand("cp -a " + modelDir + " " + currentModelDir.substring(0, currentModelDir.length()-1)));
 	}
 	
-	public void saveModel(){
+	public String saveModel(){
 		String[] temp = manager.sendCommand("ls /home/earhyne/speech_recognition/samples/models/old_acoustic_models").split("\n");
 		System.out.println(manager.sendCommand("cp -a " + currentModelDir.substring(0, currentModelDir.length()-1) + " " + currentModelDir.substring(0, currentModelDir.length()-24) + "old_acoustic_models/" + (temp.length+1)));
+		return currentModelDir.substring(0, currentModelDir.length()-23) + "old_acoustic_models/" + (temp.length+1);
 	}
 	
-	public void LoadAllSamples(){
+	public void MapAllSamples(){
+		String tempSampleName = sampleName;
+		String tempSampleDir = sampleDir;
+		
+		System.out.println(manager.sendCommand("mkdir /home/earhyne/speech_recognition/samples/generic_adaption_files/files"));
+		sampleDir = "/home/earhyne/speech_recognition/samples/generic_adaption_files/files";
+		
+		System.out.println(manager.sendCommand("mkdir " + sampleDir));
 		String[] temp = manager.sendCommand("ls /home/earhyne/speech_recognition/samples").split("\n");
-		for(String s : temp) {
-			sampleNames.add(s.replace(name, "").trim());
+		for(String s: temp) {
+			s = s.trim();
 		}
+		
+		sampleDir = tempSampleDir;
+		sampleName = tempSampleName;
 	}
 	
 	public void commonAdapt() {
-		for(String s : sampleNames) {
-			sampleDir = "/home/earhyne/speech_recognition/samples/"+ name + s;
-			System.out.println(manager.sendCommand("sphinx_fe "
-				+ "-argfile " + currentModelDir + "feat.params "
-				+ "-samprate 16000 "
-				+ "-c " + sampleDir + "/" + s + ".fileids "
-				+ "-di " + sampleDir + " "
-				+ "-do " + sampleDir + "/" + s + "_adaption "
-				+ "-ei wav "
-				+ "-eo mfc "
-				+ "-mswav yes"));
-			manager.sendCommand("mkdir " + sampleDir + "/" + s + "_adaption");
-			manager.sendCommand("mkdir " + sampleDir + "/" + s + "_adaption/adaption_files");
-			System.out.println(manager.sendCommand(programDir + "bw " + 
-				"-hmmdir " + currentModelDir + " " + 
-				"-moddeffn " + currentModelDir + "mdef.txt " + 
-				"-ts2cbfn .ptm. " + 
-				"-feat 1s_c_d_dd " + 
-				"-cepdir " +sampleDir + "/" + s +"_adaption " +
-				"-svspec 0-12/13-25/26-38 " + 
-				"-cmn current " + 		
-				"-agc none " + 
-				"-dictfn /home/earhyne/speech_recognition/samples/models/cmudict-en-us.dict " + 
-				"-ctlfn " + sampleDir +"/" + s + ".fileids " + 
-				"-lsnfn " + sampleDir +"/" + s + ".transcription " +
-				"-accumdir " + sampleDir + "/" + s +"_adaption/adaption_files"));
-		}
+		sampleDir = "/home/earhyne/speech_recognition/samples/"+ name + sampleName;
+		System.out.println(manager.sendCommand("sphinx_fe "
+			+ "-argfile " + currentModelDir + "feat.params "
+			+ "-samprate 16000 "
+			+ "-c " + sampleDir + "/" + sampleName + ".fileids "
+			+ "-di " + sampleDir + " "
+			+ "-do " + sampleDir + "/" + sampleName + "_adaption "
+			+ "-ei wav "
+			+ "-eo mfc "
+			+ "-mswav yes"));
+		manager.sendCommand("mkdir " + sampleDir + "/" + sampleName + "_adaption");
+		manager.sendCommand("mkdir " + sampleDir + "/" + sampleName + "_adaption/adaption_files");
+		System.out.println(manager.sendCommand(programDir + "bw " + 
+			"-hmmdir " + currentModelDir + " " + 
+			"-moddeffn " + currentModelDir + "mdef.txt " + 
+			"-ts2cbfn .ptm. " + 
+			"-feat 1s_c_d_dd " + 
+			"-cepdir " +sampleDir + "/" + sampleName +"_adaption " +
+			"-svspec 0-12/13-25/26-38 " + 
+			"-cmn current " + 		
+			"-agc none " + 
+			"-dictfn /home/earhyne/speech_recognition/samples/models/cmudict-en-us.dict " + 
+			"-ctlfn " + sampleDir +"/" + sampleName + ".fileids " + 
+			"-lsnfn " + sampleDir +"/" + sampleName + ".transcription " +
+			"-accumdir " + sampleDir + "/" + sampleName +"_adaption/adaption_files"));
 	}
+	
 	public void MapAdaptation() {
-		if(!mllrAdapt) {		
+		if(!mllrAdapt) {
 			commonAdapt();
 		}
-		//TODO Setup map adapt
+		String tempDir = saveModel();
+		System.out.println(manager.sendCommand("mkdir /home/earhyne/speech_recognition/samples/generic_adaption_files/map_adapt"));
+		System.out.println(manager.sendCommand(programDir + "/map_adapt " +
+			"-moddeffn " + currentModelDir + "mdef.txt " + 
+			"-ts2cbfn .ptm. " + 
+			"-meanfn " + tempDir + "means " + 
+			"-varfn " + tempDir + "variances " + 
+			"-mixwfn " + tempDir + "mixture_weights " + 
+			"-tmatfn " + tempDir + "transition_matrices " + 
+			"-accumdir /home/earhyne/speech_recognition/samples/generic_adaption_files/map_adapt" + 
+			"-mapmeanfn " + currentModelDir + "means " + 
+			"-mapvarfn " + currentModelDir + "variances " + 
+			"-mapmixwfn " + currentModelDir + "mixture_weights " + 
+			"-maptmatfn " + currentModelDir + "transition_matrices"));
 		mapAdapt = true;
 	}
 	
@@ -116,25 +139,22 @@ public class SSHCommandList {
 		if(!mapAdapt) {		
 			commonAdapt();
 		}
-		for(String s : sampleNames) {
-			sampleDir = "/home/earhyne/speech_recognition/samples/"+ name + s;
-			System.out.println(manager.sendCommand(programDir + "mllr_solve " + 
-					"-meanfn " + currentModelDir + "means " + 
-					"-varfn " + currentModelDir + "variances " + 
-					"-outmllrfn "+  sampleDir + "/" + s + "_adaption/adaption_files/mllr_matrix " + 
-					"-accumdir " + sampleDir + "/" + s +"_adaption/adaption_files"));
-			
-			System.out.println(manager.sendCommand(programDir + "mllr_transform " + 
-				"-inmeanfn "+ currentModelDir + "means " + 
+		System.out.println(manager.sendCommand(programDir + "mllr_solve " + 
+				"-meanfn " + currentModelDir + "means " + 
 				"-varfn " + currentModelDir + "variances " + 
-				"-mllrmat "+  sampleDir + "/" + s + "_adaption/adaption_files/mllr_matrix " + 
-				"-outmeanfn " + currentModelDir + "means"));
+				"-outmllrfn "+  sampleDir + "/" + sampleName + "_adaption/adaption_files/mllr_matrix " + 
+				"-accumdir " + sampleDir + "/" + sampleName + "_adaption/adaption_files"));
+		
+		System.out.println(manager.sendCommand(programDir + "mllr_transform " + 
+			"-inmeanfn "+ currentModelDir + "means " + 
+			"-varfn " + currentModelDir + "variances " + 
+			"-mllrmat " + sampleDir + "/" + sampleName + "_adaption/adaption_files/mllr_matrix " + 
+			"-outmeanfn " + currentModelDir + "means"));
 
-			
-			
-			System.out.println("Done with MLLR");
-			mllrAdapt = true;
-		}
+		
+		
+		System.out.println("Done with MLLR");
+		mllrAdapt = true;
 	}
 	public void end() {
 		manager.close();
