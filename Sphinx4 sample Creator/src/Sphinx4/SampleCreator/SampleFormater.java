@@ -32,7 +32,7 @@ public class SampleFormater {
 
 	public static void newSample(int count, String text, String name) {
 		try {
-			transcription.write("<s> " + text + " </s> " + "(" + name + intFormat(count) + ")\n");
+			transcription.write("<s> " + text.toLowerCase() + " </s> " + "(" + name + intFormat(count) + ")\n");
 			fileids.write(name + intFormat(count) + "\n");
 			
 		}

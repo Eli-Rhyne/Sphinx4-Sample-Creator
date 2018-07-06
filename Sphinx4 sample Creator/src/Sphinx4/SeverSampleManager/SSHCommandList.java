@@ -125,12 +125,14 @@ public class SSHCommandList {
 					"-accumdir " + sampleDir + "/" + s +"_adaption/adaption_files"));
 			
 			System.out.println(manager.sendCommand(programDir + "mllr_transform " + 
-					"-inmeanfn /home/earhyne/speech_recognition/samples/models/old_acoustic_models/cmusphinx-en-us-ptm-5.2/means " + 
-					"-varfn " + currentModelDir + "variances " + 
-					"-mllrmat "+  sampleDir + "/" + s + "_adaption/adaption_files/mllr_matrix " + 
-					"-outmeanfn " + currentModelDir + "means"));
+				"-inmeanfn "+ currentModelDir + "means " + 
+				"-varfn " + currentModelDir + "variances " + 
+				"-mllrmat "+  sampleDir + "/" + s + "_adaption/adaption_files/mllr_matrix " + 
+				"-outmeanfn " + currentModelDir + "means"));
+
 			
-			System.out.println("Done");
+			
+			System.out.println("Done with MLLR");
 			mllrAdapt = true;
 		}
 	}
